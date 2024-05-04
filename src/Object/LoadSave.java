@@ -7,6 +7,7 @@ import java.io.InputStream;
 
 public class LoadSave {
     public static final String lobby = "5451_ho_00_p_2048x1536.jpg";
+    public static final String room01 = "chambre-triple-pre-mium.jpg";
 
     public static BufferedImage getImg(String filename){
         BufferedImage img = null;

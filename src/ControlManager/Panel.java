@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 public class Panel extends JPanel {
     private BufferedImage lobby = LoadSave.getImg(LoadSave.lobby);
+    private BufferedImage room01 = LoadSave.getImg(LoadSave.room01);
 
     public Panel(){
     setPanelSize();
@@ -16,7 +17,8 @@ public class Panel extends JPanel {
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(lobby,0,0,1000,700, null);
+        g.drawImage(lobby.getSubimage(130,0,1848,1536),0,0,1000,700, null);
+
 
     }
 
