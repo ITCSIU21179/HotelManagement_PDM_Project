@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class LoadSave {
-    public static final String lobby = "lobby.png";
+    public static final String lobby = "5451_ho_00_p_2048x1536.jpg";
 
     public static BufferedImage getImg(String filename){
         BufferedImage img = null;
