@@ -7,8 +7,7 @@ CREATE TABLE Hotel (
     Stars INT,
 );
 CREATE TABLE RoomType (
-    TypeID INT PRIMARY KEY,
-    Name VARCHAR(50),
+    Type_name VARCHAR(50) PRIMARY KEY,
     Description VARCHAR(255),
     PricePerNight DECIMAL(10, 2),
     Capacity INT
@@ -19,7 +18,7 @@ CREATE TABLE Room (
     TypeID INT,
     Status VARCHAR(20),
     FOREIGN KEY (HotelID) REFERENCES Hotel(HotelID),
-    FOREIGN KEY (TypeID) REFERENCES RoomType(TypeID)
+    FOREIGN KEY (Type_name) REFERENCES RoomType(Type_name)
 );
 CREATE TABLE Guest (
     GuestID INT PRIMARY KEY,
