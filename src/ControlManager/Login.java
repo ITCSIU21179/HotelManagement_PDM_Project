@@ -61,6 +61,13 @@ public class Login extends JFrame implements ActionListener {
         image.setBounds(370,10,290,290);
         add(image);
 
+
+        JLabel text = new JLabel("HOTEL MANAGEMENT SYSTEM");
+        text.setBounds(20,200,100,30);
+        text.setForeground(Color.WHITE);
+        text.setFont(new Font("serif", Font.PLAIN,50));
+        add(text);
+
         setBounds(350,180,680,370);
         setVisible(true);
 
