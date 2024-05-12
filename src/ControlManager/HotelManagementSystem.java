@@ -50,7 +50,7 @@ public class HotelManagementSystem implements Runnable{
             }
 
             if(deltaF >=1) {
-//                render();
+                panel.repaint();
                 frame++;
                 deltaF--;
             }

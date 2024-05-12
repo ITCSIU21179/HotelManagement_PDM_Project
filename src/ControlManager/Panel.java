@@ -27,39 +27,4 @@ public class Panel extends JPanel  {
     }
 
 }
-//public class Home extends JFrame implements ActionListener {
-//
-//    private Panel panel;
-//
-//    Home() {
-//        getContentPane().setBackground(Color.WHITE);
-//        setLayout(new BorderLayout());
-//
-//        BufferedImage lobby = LoadSave.getImg(LoadSave.lobby);
-//        panel = new Panel(lobby);
-//        add(panel, BorderLayout.CENTER);
-//
-//        // Create a panel to hold the login button
-//        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-//        buttonPanel.setOpaque(false); // Make the panel transparent
-//        JButton loginButton = new JButton("Log in");
-//        loginButton.addActionListener(this);
-//        buttonPanel.add(loginButton);
-//
-//        // Add the button panel to the south of the frame
-//        add(buttonPanel, BorderLayout.SOUTH);
-//
-//        setBounds(500, 200, 600, 300);
-//        setVisible(true);
-//    }
-//
-//    @Override
-//    public void actionPerformed(ActionEvent e) {
-//        setVisible(false);
-//        new Login();
-//    }
-//
-//    public static void main(String[] args) {
-//        new Home();
-//    }
-// }
+

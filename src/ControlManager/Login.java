@@ -2,8 +2,9 @@ package ControlManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-public class Login extends JFrame implements ActionListener {
+public class Login extends JFrame {
     Login() {
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().setBackground(Color.WHITE);
         setLayout(null);
         JLabel user = new JLabel("Username");
@@ -41,6 +42,15 @@ public class Login extends JFrame implements ActionListener {
             }
         });
 
+        login.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Exit the program
+                HotelManagementSystem.executeHotel();
+                setVisible(false);
+                dispose();
+            }
+        });
         ImageIcon login_page = new ImageIcon(ClassLoader.getSystemResource("5451_ho_00_p_2048x1536.jpg"));
         Image i2 = login_page.getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT);
         ImageIcon i3 = new ImageIcon(i2);
@@ -56,9 +66,4 @@ public class Login extends JFrame implements ActionListener {
         new Login();
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        setVisible(false);
-        new Login();
-    }
 }
