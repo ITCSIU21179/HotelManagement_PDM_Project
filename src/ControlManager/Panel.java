@@ -29,7 +29,7 @@ public class Panel extends JPanel  {
         image.setBounds(0, 0, 1550, 1000);
         add(image);
 
-        JLabel text = new JLabel("<html><b>WELLCOME TO THE PREMIER PEARL HOTEL</b></html>");
+        JLabel text = new JLabel("<html><b>WELCOME TO THE GREATEST HOTEL EVER</b></html>");
         text.setBounds(280, 80, 1000, 50);
         text.setFont(new Font("Tahoma", Font.PLAIN, 45));
         text.setForeground(Color.WHITE);
