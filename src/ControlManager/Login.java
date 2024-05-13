@@ -61,9 +61,4 @@ public class Login extends JFrame {
         setBounds(350,180,700,650);
         setVisible(true);
     }
-    public static void main (String[] args)
-    {
-        new Login();
-    }
-
 }
