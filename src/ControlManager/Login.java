@@ -68,7 +68,7 @@ public class Login extends JFrame implements ActionListener {
         text.setFont(new Font("serif", Font.PLAIN,50));
         add(text);
 
-        setBounds(350,180,680,370);
+        setBounds(340,180,680,370);
         setVisible(true);
 
     }
