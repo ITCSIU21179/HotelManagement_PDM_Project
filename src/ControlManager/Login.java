@@ -25,12 +25,12 @@ public class Login extends JFrame {
 
         JButton login = new JButton("Login");
         login.setBounds(40,190,120,30);
-        login.setBackground(Color.BLACK);
+        login.setBackground(Color.WHITE);
         add(login);
 
         JButton cancel = new JButton("Cancel");
         cancel.setBounds(180,190,120,30);
-        cancel.setBackground(Color.BLACK);
+        cancel.setBackground(Color.WHITE);
         add(cancel);
 
         // Add ActionListener to the Cancel button
