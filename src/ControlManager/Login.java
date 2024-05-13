@@ -3,6 +3,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 public class Login extends JFrame {
+    JTextField username, password;
+    JButton login, cancel;
+
     Login() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().setBackground(Color.WHITE);
@@ -11,7 +14,7 @@ public class Login extends JFrame {
         user.setBounds(40,80,100,30);
         add(user);
 
-        JTextField username = new JTextField();
+        username = new JTextField();
         username.setBounds(150,80,150,30);
         add(username);
 
@@ -19,16 +22,16 @@ public class Login extends JFrame {
         pass.setBounds(40,120,100,30);
         add(pass);
 
-        JTextField password = new JTextField();
+        password = new JTextField();
         password.setBounds(150,120,150,30);
         add(password);
 
-        JButton login = new JButton("Login");
+        login = new JButton("Login");
         login.setBounds(40,190,120,30);
         login.setBackground(Color.WHITE);
         add(login);
 
-        JButton cancel = new JButton("Cancel");
+        cancel = new JButton("Cancel");
         cancel.setBounds(180,190,120,30);
         cancel.setBackground(Color.WHITE);
         add(cancel);
@@ -45,10 +48,18 @@ public class Login extends JFrame {
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Exit the program
-                HotelManagementSystem.executeHotel();
-                setVisible(false);
-                dispose();
+                String user = username.getText();
+                String pass = password.getText();
+                if (user.equals("JohnnySing123") && pass.equals("123456")) {
+                    HotelManagementSystem.executeHotel();
+                    setVisible(false);
+                    dispose();
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Invalid username or password");
+                    new Login();
+                    dispose();
+                }
             }
         });
         ImageIcon login_page = new ImageIcon(ClassLoader.getSystemResource("5451_ho_00_p_2048x1536.jpg"));
