@@ -67,13 +67,14 @@ public class GuestDashboard extends JFrame {
         add(submit);
 
         table = new JTable();
-        table.setBounds(150,120,700,300);
-        add(table);
+        JScrollPane sp = new JScrollPane(table);
+        sp.setBounds(150,120,700,300);
         Conn c = new Conn();
         try{
 
             ResultSet rs = c.s.executeQuery("select Room_id, room.Type_name, Description, PricePerNight, Capacity from room inner join roomtype on room.Type_name = roomtype.Type_name where Status = 'empty' order by Room_id ");
             table.setModel(DbUtils.resultSetToTableModel(rs));
+            add(sp);
         } catch(Exception e){
             e.printStackTrace();
         }
