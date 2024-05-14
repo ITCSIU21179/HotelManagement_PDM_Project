@@ -6,10 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class Booking extends JFrame {
     String room_id;
@@ -123,21 +121,40 @@ public class Booking extends JFrame {
                 String mail = Email.getText();
                 String ssn = Ssn.getText();
                 Conn c = new Conn();
-                try {
-                    String updateGuest = "Insert into guest(First_Name, Last_Name, DoB, Address, Phone, Email, Ssn) values('" +firstname+"', '"+ lastname+"', '"+birthday+"', '"+addressS+"', '"+phone_numb+"','"+mail+"', '"+ssn+"')";
-                    c.s.executeUpdate(updateGuest);
-                    JOptionPane.showMessageDialog(null, "Please meet receptionists to check in");
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                String guest_id = "";
+                try{
+                    String check_old_guest = "select Guest_id, Ssn from guest where Ssn = '"+ssn+"'";
+                    ResultSet rs = c.s.executeQuery(check_old_guest);
+
+                    if(rs.next()){
+                        guest_id = rs.getString("Guest_id");
+                    }
+                    else{
+                        try {
+                            ResultSet guestid = c.s.executeQuery("Select max(Guest_id) as max_gid from guest");
+                            guestid.next();
+                            String newGuest_id = Integer.toString(guestid.getInt("max_gid") +1);
+                            String updateGuest = "Insert into guest values('"+newGuest_id+"', '" +firstname+"', '"+ lastname+"', '"+birthday+"', '"+addressS+"', '"+phone_numb+"','"+mail+"', '"+ssn+"')";
+                            c.s.executeUpdate(updateGuest);
+
+                            String newGuest = "select Guest_id  from guest where Ssn = '"+ssn+"'";
+                            ResultSet rs1 = c.s.executeQuery(newGuest);
+                            rs1.next();
+                            int g_id = rs1.getInt("Guest_id");
+                            guest_id = Integer.toString(g_id);
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                } catch(Exception exc){
+                    exc.printStackTrace();
                 }
-                String guest_id;
+                String query_booking_id = "Select max(Booking_id) as max_bid from booking";
+                String booking_id;
                 try {
-                    String getGuest_id = "select max(Guest_id) as newGuest from guest";
-                    ResultSet rs = c.s.executeQuery(getGuest_id);
-                    rs.next();
-                    int g_id = rs.getInt("newGuest");
-                    guest_id = Integer.toString(g_id);
-                    System.out.println(guest_id);
+                    ResultSet bookingid = c.s.executeQuery(query_booking_id);
+                    bookingid.next();
+                    booking_id = Integer.toString(bookingid.getInt("max_bid")+1);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -145,17 +162,20 @@ public class Booking extends JFrame {
                 Date date = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String strDate = formatter.format(date);
-
-                String update_booking = "Insert into booking(CheckinDate, Guest_id, Room_id) values('"+strDate+"','"+guest_id+"', '"+room_id+"')";
+                String update_booking = "Insert into booking(Booking_id, CheckinDate, Guest_id, Room_id) values('"+booking_id+"', '"+strDate+"','"+guest_id+"', '"+room_id+"')";
+                String update_room = "update room set Status = 'occupied' where Room_id ='"+room_id+"'";
                 try {
                     c.s.executeUpdate(update_booking);
+                    c.s.executeUpdate(update_room);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
+                JOptionPane.showMessageDialog(null, "Please meet receptionists to check in");
                 new Login();
                 dispose();
             }
         });
+
 
 
     }
