@@ -1,27 +1,18 @@
 package ControlManager;
-import Object.LoadSave;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.event.*;
+
+public class AdminDashboard extends JFrame {
+    public AdminDashboard(){
+        setBounds(0,0,1550, 1000);
+        setLayout(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setVisible(true);
 
 
-public class Panel extends JPanel  {
-    private BufferedImage lobby = LoadSave.getImg(LoadSave.lobby);
-    private BufferedImage room01 = LoadSave.getImg(LoadSave.room01);
-
-    public Panel() {
-        setPanelSize();
-    }
-
-    public void setPanelSize() {
-        Dimension size = new Dimension(1000, 700);
-        setPreferredSize(size);
-    }
-
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        //Dashboard
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("chambre-triple-pre-mium.jpg"));
         Image i2 = i1.getImage().getScaledInstance(1550, 1000, Image.SCALE_DEFAULT);
         ImageIcon i3 = new ImageIcon(i2);
@@ -50,15 +41,11 @@ public class Panel extends JPanel  {
         admin.setForeground(Color.BLUE);
         menu.add(admin);
 
-        JMenuItem addemployee = new JMenuItem("ADD EMPLOYEE");
-        admin.add(addemployee);
 
         JMenuItem addrooms = new JMenuItem("ADD ROOMS");
         admin.add(addrooms);
 
-        JMenuItem adddrivers = new JMenuItem("ADD DRIVERS");
-        admin.add(adddrivers);
-        //End of Dashboard
+
 
     }
 
