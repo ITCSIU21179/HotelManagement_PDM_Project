@@ -11,6 +11,7 @@ public class AdminDashboard extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
+        getContentPane().setBackground(Color.white);
 
 
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("chambre-triple-pre-mium.jpg"));
