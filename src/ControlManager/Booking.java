@@ -123,7 +123,7 @@ public class Booking extends JFrame {
                 Conn c = new Conn();
                 String guest_id = "";
                 try{
-                    String check_old_guest = "select Guest_id, Ssn from guest where Ssn = '"+ssn+"'";
+                    String check_old_guest = "select Guest_id, Ssn from user where Ssn = '"+ssn+"'";
                     ResultSet rs = c.s.executeQuery(check_old_guest);
 
                     if(rs.next()){
