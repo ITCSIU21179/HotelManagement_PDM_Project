@@ -2,9 +2,13 @@ package ControlManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Login extends JFrame {
     JTextField username, password;
     JButton login, cancel, guest;
+    static String Guest_id;
 
     Login() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -26,10 +30,6 @@ public class Login extends JFrame {
         password.setBounds(150,120,150,30);
         add(password);
 
-        guest = new JButton("Continue as guest");
-        guest.setBounds(70,250,200,30);
-        guest.setBackground(Color.WHITE);
-        add(guest);
 
         login = new JButton("Login");
         login.setBounds(40,190,120,30);
@@ -55,23 +55,27 @@ public class Login extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String user = username.getText();
                 String pass = password.getText();
-                if (user.equals("JohnnySing123") && pass.equals("123456")) {
-                    HotelManagementSystem.executeHotel();
-                    setVisible(false);
-                    dispose();
+                String checkAccount = "Select * from account where Username='"+user+"' and Password='"+pass+"'";
+                Conn c = new Conn();
+                try {
+                    ResultSet rs = c.s.executeQuery(checkAccount);
+                    if (rs.next()) {
+                        if(rs.getString("User_type").equals("Guest")) {
+                            Guest_id = rs.getString("User_id");
+                            HotelManagementSystem.executeHotel("Guest");
+                        }
+                        else HotelManagementSystem.executeHotel("Admin");
+
+                        setVisible(false);
+                        dispose();
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Invalid username or password");
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
                 }
-                else{
-                    JOptionPane.showMessageDialog(null, "Invalid username or password");
-                    new Login();
-                    dispose();
-                }
-            }
-        });
-        guest.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new GuestDashboard();
-                dispose();
+
             }
         });
         ImageIcon login_page = new ImageIcon(ClassLoader.getSystemResource("5451_ho_00_p_2048x1536.jpg"));
@@ -80,12 +84,10 @@ public class Login extends JFrame {
         JLabel image = new JLabel(i3);
         image.setBounds(370,10,290,290);
         add(image);
-
-        setBounds(350,180,700,650);
-        setVisible(true);
-
-
         setBounds(340,180,680,370);
         setVisible(true);
+    }
+    public static String getGuest_id(){
+        return Guest_id;
     }
 }

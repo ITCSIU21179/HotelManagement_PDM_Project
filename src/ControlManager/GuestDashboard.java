@@ -1,7 +1,6 @@
 package ControlManager;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +12,7 @@ public class GuestDashboard extends JFrame {
     JTable table;
     JTextField submit_room;
     JButton submit;
+
     public GuestDashboard()  {
         setBounds(0,0,1000, 700);
         setLayout(null);
@@ -27,31 +27,6 @@ public class GuestDashboard extends JFrame {
         search.setBounds(400, 30, 200, 30);
         add(search);
 
-        JLabel room_id = new JLabel("Room ID");
-        room_id.setFont(new Font("Arial", Font.BOLD, 15));
-        room_id.setBounds(150,90,150,40);
-        add(room_id);
-
-        JLabel room_type = new JLabel("Room Type");
-        room_type.setFont(new Font("Arial", Font.BOLD, 15));
-        room_type.setBounds(290,90,150,40);
-        add(room_type);
-
-        JLabel description = new JLabel("Description");
-        description.setFont(new Font("Arial", Font.BOLD, 15));
-        description.setBounds(430,90,150,40);
-        add(description);
-
-        JLabel pricepernight = new JLabel("Price per night");
-        pricepernight.setFont(new Font("Arial", Font.BOLD, 15));
-        pricepernight.setBounds(570,90,150,40);
-        add(pricepernight);
-
-        JLabel capacity = new JLabel("Capacity");
-        capacity.setFont(new Font("Arial", Font.BOLD, 15));
-        capacity.setBounds(710,90,150,40);
-        add(capacity);
-
         JLabel chooseroom = new JLabel("Choose Room");
         chooseroom.setFont(new Font("Arial", Font.BOLD, 15));
         chooseroom.setBounds(150,500,150,40);
@@ -65,7 +40,7 @@ public class GuestDashboard extends JFrame {
         submit.setBounds(530,500,120,40);
         submit.setBackground(Color.WHITE);
         add(submit);
-
+//        String[] header = {"Available room", "Room ID", "Room Type", "Description","Price per night", "Capacity", "Choose Room"};
         table = new JTable();
         JScrollPane sp = new JScrollPane(table);
         sp.setBounds(150,120,700,300);

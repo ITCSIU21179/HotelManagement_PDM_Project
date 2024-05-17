@@ -1,51 +1,69 @@
 package ControlManager;
 
+import net.proteanit.sql.DbUtils;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class AdminDashboard extends JFrame {
+    JTable table;
+    ResultSet rs;
+    Conn c = new Conn();
     public AdminDashboard(){
-        setBounds(0,0,1550, 1000);
+        setBounds(0,0,1000, 700);
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
-        getContentPane().setBackground(Color.white);
+        getContentPane().setBackground(Color.lightGray);
 
 
-        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("chambre-triple-pre-mium.jpg"));
-        Image i2 = i1.getImage().getScaledInstance(1550, 1000, Image.SCALE_DEFAULT);
-        ImageIcon i3 = new ImageIcon(i2);
-        JLabel image = new JLabel(i3);
-        image.setBounds(0, 0, 1550, 1000);
-        add(image);
+        JLabel Admin = new JLabel("Admin Management");
+        Admin.setFont(new Font("Tahoma", Font.BOLD, 20));
+        Admin.setBounds(400, 30, 500, 30);
+        add(Admin);
 
-        JLabel text = new JLabel("<html><b>WELCOME TO THE GREATEST HOTEL EVER</b></html>");
-        text.setBounds(280, 80, 1000, 50);
-        text.setFont(new Font("Tahoma", Font.PLAIN, 45));
-        text.setForeground(Color.WHITE);
-        image.add(text);
+        JButton ShowOccupiedRoom = new JButton("Occupied Room");
+        ShowOccupiedRoom.setBounds(150,450,200,30);
+        add(ShowOccupiedRoom);
 
-        JMenuBar menu = new JMenuBar();
-        menu.setBounds(0, 0, 1550, 30);
-        image.add(menu);
+        JButton ShowAvailableRoom = new JButton("Available Room");
+        ShowAvailableRoom.setBounds(360,450,200,30);
+        add(ShowAvailableRoom);
 
-        JMenu hotel = new JMenu("HOTEL MANAGEMENT");
-        hotel.setForeground(Color.RED);
-        menu.add(hotel);
+        table = new JTable();
+        JScrollPane sp = new JScrollPane(table);
+        sp.setBounds(150,120,700,300);
+        add(sp);
 
-        JMenuItem reception = new JMenu("RECEPTION");
-        hotel.add(reception);
+        ShowOccupiedRoom.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    rs = c.s.executeQuery("select u.First_Name, u.Last_Name, u.Phone, u.Ssn, r.Room_id, r.Type_name from user as u inner join booking as b on u.User_id = b.User_id inner join room as r on b.Room_id = r.Room_id where r.Status = 'occupied'");
 
-        JMenu admin = new JMenu("ADMIN");
-        admin.setForeground(Color.BLUE);
-        menu.add(admin);
-
-
-        JMenuItem addrooms = new JMenuItem("ADD ROOMS");
-        admin.add(addrooms);
-
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                table.setModel(DbUtils.resultSetToTableModel(rs));
+            }
+        });
+        ShowAvailableRoom.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    rs = c.s.executeQuery("select r.Room_id, r.Floor, rt.Type_name, rt.Description, rt.PricePerNight from room as r inner join roomtype as rt on r.Type_name = rt.Type_name where r.Status = 'empty'");
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                table.setModel(DbUtils.resultSetToTableModel(rs));
+            }
+        });
 
 
     }

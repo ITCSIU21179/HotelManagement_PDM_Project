@@ -9,10 +9,13 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static ControlManager.Login.getGuest_id;
+
 public class Booking extends JFrame {
     String room_id;
     JTextField first_name, last_name, DoB, address, Phone, Email, Ssn;
     JButton submit;
+    String Guest_id = getGuest_id();
     public Booking(String room_id){
         this.room_id = room_id;
         setBounds(0,0,1000, 700);
