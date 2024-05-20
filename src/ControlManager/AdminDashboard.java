@@ -8,11 +8,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class AdminDashboard extends JFrame {
     JTable table;
     ResultSet rs;
     Conn c = new Conn();
+    JLabel Total_Revenue;
     public AdminDashboard(){
         setBounds(0,0,1000, 700);
         setLayout(null);
@@ -32,9 +34,20 @@ public class AdminDashboard extends JFrame {
         ShowOccupiedRoom.setBounds(150,450,200,30);
         add(ShowOccupiedRoom);
 
+
         JButton ShowAvailableRoom = new JButton("Available Room");
         ShowAvailableRoom.setBounds(360,450,200,30);
         add(ShowAvailableRoom);
+
+
+        JButton checkRevenue = new JButton("Revenue");
+        checkRevenue.setBounds(570,450,200,30);
+        add(checkRevenue);
+
+        Total_Revenue = new JLabel();
+        Total_Revenue.setFont(new Font("Tahoma", Font.BOLD, 20));
+        Total_Revenue.setBounds(570,550,200,30);
+        add(Total_Revenue);
 
         table = new JTable();
         JScrollPane sp = new JScrollPane(table);
@@ -62,6 +75,32 @@ public class AdminDashboard extends JFrame {
                     throw new RuntimeException(ex);
                 }
                 table.setModel(DbUtils.resultSetToTableModel(rs));
+            }
+        });
+
+        checkRevenue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<Float> Revenue = new ArrayList<>();
+                try {
+                    rs = c.s.executeQuery("Select TotalPrice from booking");
+                    while(rs.next()){
+                        Revenue.add(rs.getFloat("TotalPrice"));
+                    };
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                Float totalRevenue = 0.00F;
+                for(Float i: Revenue)
+                    totalRevenue += i;
+                String StrRevenue = totalRevenue.toString();
+                System.out.println(StrRevenue);
+                Total_Revenue.setText(StrRevenue);
+
+
+
+
+
             }
         });
 
