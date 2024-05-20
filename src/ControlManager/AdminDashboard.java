@@ -70,7 +70,7 @@ public class AdminDashboard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    rs = c.s.executeQuery("select r.Room_id, r.Floor, rt.Type_name, rt.Description, rt.PricePerNight from room as r inner join roomtype as rt on r.Type_name = rt.Type_name where r.Status = 'empty'");
+                    rs = c.s.executeQuery("select r.Room_id, r.Floor, rt.Type_name, rt.Description, rt.PricePerNight from room as r inner join roomtype as rt on r.Type_name = rt.Type_name where r.Status = 'empty' order by r.Room_id");
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
