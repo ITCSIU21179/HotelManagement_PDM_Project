@@ -31,22 +31,22 @@ public class AdminDashboard extends JFrame {
         add(Admin);
 
         JButton ShowOccupiedRoom = new JButton("Occupied Room");
-        ShowOccupiedRoom.setBounds(150,450,200,30);
+        ShowOccupiedRoom.setBounds(150,500,200,30);
         add(ShowOccupiedRoom);
 
 
         JButton ShowAvailableRoom = new JButton("Available Room");
-        ShowAvailableRoom.setBounds(360,450,200,30);
+        ShowAvailableRoom.setBounds(360,500,200,30);
         add(ShowAvailableRoom);
 
 
-        JButton checkRevenue = new JButton("Revenue");
-        checkRevenue.setBounds(570,450,200,30);
+        JButton checkRevenue = new JButton("Check Booking");
+        checkRevenue.setBounds(570,500,200,30);
         add(checkRevenue);
 
         Total_Revenue = new JLabel();
         Total_Revenue.setFont(new Font("Tahoma", Font.BOLD, 20));
-        Total_Revenue.setBounds(570,550,200,30);
+        Total_Revenue.setBounds(570,440,200,30);
         add(Total_Revenue);
 
         table = new JTable();
@@ -81,24 +81,29 @@ public class AdminDashboard extends JFrame {
         checkRevenue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Float> Revenue = new ArrayList<>();
                 try {
-                    rs = c.s.executeQuery("Select TotalPrice from booking");
-                    while(rs.next()){
-                        Revenue.add(rs.getFloat("TotalPrice"));
-                    };
+                    rs = c.s.executeQuery("select * from booking");
+
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
-                Float totalRevenue = 0.00F;
-                for(Float i: Revenue)
-                    totalRevenue += i;
-                String StrRevenue = totalRevenue.toString();
-                System.out.println(StrRevenue);
-                Total_Revenue.setText(StrRevenue);
-
-
-
+                table.setModel(DbUtils.resultSetToTableModel(rs));
+                ArrayList<Float> Revenue = new ArrayList<>();
+                try {
+                    ResultSet RS;
+                    RS = c.s.executeQuery("Select TotalPrice from booking");
+                    while(RS.next()){
+                        Revenue.add(RS.getFloat("TotalPrice"));
+                    };
+                    Float totalRevenue = 0.00F;
+                    for(Float i: Revenue)
+                        totalRevenue += i;
+                    String StrRevenue = totalRevenue.toString();
+                    System.out.println(StrRevenue);
+                    Total_Revenue.setText("Revenue: "+StrRevenue);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
 
 
             }
