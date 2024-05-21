@@ -26,14 +26,14 @@ public class Booking extends JFrame {
         setVisible(true);
         getContentPane().setBackground(Color.LIGHT_GRAY);
 
-        JLabel roomID = new JLabel(room_id);
-        roomID.setFont(new Font("Arial", Font.BOLD, 20));
-        roomID.setBounds(150,400,150,40);
+        JLabel roomID = new JLabel("Room: "+room_id);
+        roomID.setFont(new Font("Arial", Font.BOLD, 50));
+        roomID.setBounds(300,200,300,40);
         roomID.setBackground(Color.WHITE);
         add(roomID);
 
         submit = new JButton("Confirm");
-        submit.setBounds(400,500,120,40);
+        submit.setBounds(400,300,120,40);
         submit.setBackground(Color.WHITE);
         add(submit);
 
