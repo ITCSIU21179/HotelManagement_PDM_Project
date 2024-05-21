@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class Login extends JFrame {
     JTextField username, password;
-    JButton login, cancel, guest;
+    JButton login, cancel, newguest;
     static String Guest_id;
 
     Login() {
@@ -40,6 +40,11 @@ public class Login extends JFrame {
         cancel.setBounds(180,190,120,30);
         cancel.setBackground(Color.WHITE);
         add(cancel);
+
+        newguest = new JButton("Sign up");
+        newguest.setBounds(110,240,120,30);
+        newguest.setBackground(Color.WHITE);
+        add(newguest);
 
         // Add ActionListener to the Cancel button
         cancel.addActionListener(new ActionListener() {
@@ -76,6 +81,14 @@ public class Login extends JFrame {
                     throw new RuntimeException(ex);
                 }
 
+            }
+        });
+
+        newguest.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AddNewGuest();
+                dispose();
             }
         });
         ImageIcon login_page = new ImageIcon(ClassLoader.getSystemResource("5451_ho_00_p_2048x1536.jpg"));

@@ -65,7 +65,7 @@ public class Booking extends JFrame {
                     throw new RuntimeException(ex);
                 }
                 JOptionPane.showMessageDialog(null, "Please meet receptionists to check in");
-                new Login();
+                new GuestDashboard();
                 dispose();
             }
         });
