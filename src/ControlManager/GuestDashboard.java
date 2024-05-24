@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import net.proteanit.sql.*;
 
@@ -13,7 +16,7 @@ import static ControlManager.Login.getGuest_id;
 public class GuestDashboard extends JFrame {
     JTable table;
     JTextField submit_room;
-    JButton submit, availableRoom, bookedRoom;
+    JButton submit,checkout, availableRoom, bookedRoom;
     String Guest_id = getGuest_id();
 
     public GuestDashboard()  {
@@ -39,10 +42,15 @@ public class GuestDashboard extends JFrame {
         submit_room.setBounds(270, 500, 250,40);
         add(submit_room);
 
-        submit = new JButton("Submit");
-        submit.setBounds(530,500,120,40);
+        submit = new JButton("Take room");
+        submit.setBounds(300,550,120,40);
         submit.setBackground(Color.WHITE);
         add(submit);
+
+        checkout = new JButton("Check out");
+        checkout.setBounds(430,550,120,40);
+        checkout.setBackground(Color.WHITE);
+        add(checkout);
 
         availableRoom = new JButton("Available room");
         availableRoom.setBounds(150,430,200,40);
@@ -93,6 +101,39 @@ public class GuestDashboard extends JFrame {
                 String room_id = submit_room.getText();
                 new Booking(room_id);
                 dispose();
+            }
+        });
+
+        checkout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Date date = new Date();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                String strDate = formatter.format(date);
+                String update_booking = "update booking set CheckoutDate ='"+strDate+"' where Room_id = '"+ submit_room.getText()+"' and User_id = '"+Guest_id+"'";
+                String update_room = "update room set Status = 'empty' where Room_id ='"+submit_room.getText()+"'";
+                ResultSet rs;
+                try {
+                    c.s.executeUpdate(update_booking);
+                    c.s.executeUpdate(update_room);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                try {
+                    rs = c.s.executeQuery("Select CheckinDate, CheckoutDate from booking where Room_id = '"+ submit_room.getText()+"' and User_id = '"+Guest_id+"'" );
+                    rs.next();
+                    rs = c.s.executeQuery("select datediff('"+rs.getString("CheckoutDate")+"','"+rs.getString("CheckinDate")+"') as datediff");
+                    rs.next();
+                    Float datediff = (float)rs.getInt("datediff");
+                    rs = c.s.executeQuery("select PricePerNight from room as r inner join roomtype as rt on r.Type_name = rt.Type_name where r.Room_id ='"+submit_room.getText()+"'");
+                    rs.next();
+                    Float pricepernight = rs.getFloat("PricePerNight");
+                    Float total_price = datediff * pricepernight;
+                    c.s.executeUpdate("update booking set TotalPrice ='"+total_price+"' where Room_id = '"+ submit_room.getText()+"' and User_id = '"+Guest_id+"'");
+                    JOptionPane.showMessageDialog(null, "Check out complete, please come to receptionist to return room key");
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }
